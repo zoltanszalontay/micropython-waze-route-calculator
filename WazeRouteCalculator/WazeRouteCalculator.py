@@ -171,7 +171,7 @@ class WazeRouteCalculator(object):
             time += segment['crossTime' if real_time else 'crossTimeWithoutRealTime']
             distance += segment['length']
         route_time = time / 60.0
-        route_distance = distance / 1000.0
+        route_distance = (distance / 1000.0) * 0.62137
         return route_time, route_distance
 
     def calc_route_info(self, real_time=True, stop_at_bounds=False, time_delta=0):
@@ -180,7 +180,7 @@ class WazeRouteCalculator(object):
         route = self.get_route(1, time_delta)
         results = route['results']
         route_time, route_distance = self._add_up_route(results, real_time=real_time, stop_at_bounds=stop_at_bounds)
-        self.log.info('Time %.2f minutes, distance %.2f km.', route_time, route_distance)
+        self.log.info('Time %.2f minutes, distance %.2f mi.', route_time, route_distance)
         return route_time, route_distance
 
     def calc_all_routes_info(self, npaths=3, real_time=True, stop_at_bounds=False, time_delta=0):
@@ -190,5 +190,5 @@ class WazeRouteCalculator(object):
         results = {route['routeName']: self._add_up_route(route['results'], real_time=real_time, stop_at_bounds=stop_at_bounds) for route in routes}
         route_time = [route[0] for route in results.values()]
         route_distance = [route[1] for route in results.values()]
-        self.log.info('Time %.2f - %.2f minutes, distance %.2f - %.2f km.', min(route_time), max(route_time), min(route_distance), max(route_distance))
+        self.log.info('Time %.2f - %.2f minutes, distance %.2f - %.2f mi.', min(route_time), max(route_time), min(route_distance), max(route_distance))
         return results
