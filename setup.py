@@ -1,31 +1,20 @@
-#!/usr/bin/env python
+import sys
+# Remove current dir from sys.path, otherwise setuptools will peek up our
+# module instead of system's.
+sys.path.pop(0)
 from setuptools import setup
-import os
+sys.path.append("..")
+import sdist_upip
 
-
-with open("./WazeRouteCalculator/__version__.py") as version_file:
-    version = version_file.read().split("\"")[1]
-
-
-def read(fname):
-    try:
-        with open(os.path.join(os.path.dirname(__file__), fname)) as f:
-            return f.read()
-    except IOError:
-        return ""
-
-
-setup(
-    name = 'WazeRouteCalculator',
-    version = version,
-    author = 'Balint Kovacs',
-    author_email = 'kovacsbalu@gmail.com',
-    description = "Calculate actual route time and distance with waze api.",
-    url = 'https://github.com/kovacsbalu/WazeRouteCalculator',
-    download_url="https://github.com/kovacsbalu/WazeRouteCalculator/tarball/" + version,
-    license = 'GNU GPL v3',
-    keywords = ['waze', 'route', 'calculator'],
-    packages = ['WazeRouteCalculator'],
-    install_requires = ['requests'],
-    long_description = read('readme.md')
-)
+setup(name='micropython-waze-route-calculator',
+      version='1.0.0',
+      description='Waze Route Calculator module for MicroPython',
+      long_description='This is a Waze Route Calculator module for MicroPython.',
+      url='https://github.com/sconaway/micropython-waze-route-calculator',
+      author='Steven Conaway',
+      author_email='sjconaway48@gmail.com',
+      maintainer='Steven Conaway',
+      maintainer_email='sjconaway48@gmail.com',
+      license='GNU',
+      cmdclass={'sdist': sdist_upip.sdist},
+      py_modules=['micropython-waze-route-calculator'])
